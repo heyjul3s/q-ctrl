@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, makeStyles } from '@material-ui/core';
+import loader from '../preloader-lg.gif';
 
 const useStyles = makeStyles((theme) => ({
   preloaderContainer: {
@@ -19,11 +20,7 @@ export function Loader(): JSX.Element {
 
   return (
     <Container className={classes.preloaderContainer}>
-      <img
-        className={classes.preloader}
-        src={'../preloader-lg.gif'}
-        alt="preloader-image"
-      />
+      <img className={classes.preloader} src={loader} alt="preloader-image" />
     </Container>
   );
 }

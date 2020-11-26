@@ -1,5 +1,4 @@
 module.exports = {
-  // ...require('@snowpack/app-scripts-react/jest.config.js')(),
   rootDir: '.',
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
@@ -16,7 +15,7 @@ module.exports = {
   },
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/__mocks__/fileMock.js',
+      '<rootDir>/assetsTransformer.js',
     '\\.(css|scss)$': 'identity-obj-proxy'
   },
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
