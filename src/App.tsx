@@ -1,41 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Container } from '@material-ui/core';
+import { hot } from 'react-hot-loader/root';
+import { Countries, Country, GlobalStyles } from './components';
 
-interface AppProps {}
-
-function App({}: AppProps) {
-  // Create the count state.
-  const [count, setCount] = useState(0);
-  // Create the counter (+1 every second).
-  useEffect(() => {
-    const timer = setTimeout(() => setCount(count + 1), 1000);
-    return () => clearTimeout(timer);
-  }, [count, setCount]);
-  // Return the App component.
+function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <p>
-          Page has been open for <code>{count}</code> seconds.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
+      <GlobalStyles />
+      <Container maxWidth="sm">
+        <Router>
+          <Switch>
+            <Route exact={true} path="/" component={Countries} />
+            <Route
+              exact={true}
+              path="/country/:countryName"
+              component={Country}
+            />
+          </Switch>
+        </Router>
+      </Container>
     </div>
   );
 }
 
-export default App;
+export default hot(App);

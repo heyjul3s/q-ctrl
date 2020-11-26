@@ -2,29 +2,18 @@
 module.exports = {
   mount: {
     public: '/',
-    src: '/_dist_',
+    src: '/_dist_'
   },
   plugins: [
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-dotenv',
-    '@snowpack/plugin-typescript',
+    '@snowpack/plugin-typescript'
   ],
-  install: [
-    /* ... */
-  ],
-  installOptions: {
-    /* ... */
-  },
   devOptions: {
-    /* ... */
-  },
-  buildOptions: {
-    /* ... */
-  },
-  proxy: {
-    /* ... */
+    open: 'false'
   },
   alias: {
-    /* ... */
-  },
+    '@components': './src/components',
+    '@state': './src/state'
+  }
 };
