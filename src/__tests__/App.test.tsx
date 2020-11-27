@@ -1,61 +1,47 @@
 import React from 'react';
-import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
-import App from '../App';
+import {
+  fireEvent,
+  waitFor,
+  waitForElementToBeRemoved,
+  screen
+} from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
+import { renderWithRouter, renderApp } from '../test-utils';
 import 'jest-styled-components';
-import { renderWithRouter } from '../test-utils';
+import App from '../App';
 
 describe('Countries', () => {
-  afterEach(cleanup);
-
   test('shows Loader when countries are still loading', async () => {
-    const { queryByAltText } = render(
-      <RecoilRoot>
-        <App />
-      </RecoilRoot>
-    );
+    renderApp();
 
     await waitFor(() => {
-      expect(queryByAltText('preloader-image')).toBeInTheDocument();
+      expect(screen.getByAltText('preloader-image')).toBeInTheDocument();
     });
   });
 
   test('shows the first 10 countries in alphabetical order', async () => {
-    const { container, queryByAltText } = render(
-      <RecoilRoot>
-        <App />
-      </RecoilRoot>
-    );
+    renderApp();
 
     await waitFor(() => {
-      expect(queryByAltText('preloader-image')).not.toBeInTheDocument();
-      expect(container).toHaveTextContent('Afghanistan');
-      expect(container).toHaveTextContent('Åland Islands');
-      expect(container).toHaveTextContent('Albania');
-      expect(container).toHaveTextContent('Algeria');
-      expect(container).toHaveTextContent('American Samoa');
-      expect(container).toHaveTextContent('Andorra');
-      expect(container).toHaveTextContent('Angola');
-      expect(container).toHaveTextContent('Anguilla');
-      expect(container).toHaveTextContent('Antarctica');
-      expect(container).toHaveTextContent('Antigua and Barbuda');
+      expect(screen.queryByAltText('preloader-image')).not.toBeInTheDocument();
+      expect(screen.getByText('Afghanistan')).toBeInTheDocument();
+      expect(screen.getByText('Åland Islands')).toBeInTheDocument();
+      expect(screen.getByText('Albania')).toBeInTheDocument();
+      expect(screen.getByText('Algeria')).toBeInTheDocument();
+      expect(screen.getByText('American Samoa')).toBeInTheDocument();
+      expect(screen.getByText('Andorra')).toBeInTheDocument();
+      expect(screen.getByText('Angola')).toBeInTheDocument();
+      expect(screen.getByText('Anguilla')).toBeInTheDocument();
+      expect(screen.getByText('Antarctica')).toBeInTheDocument();
+      expect(screen.getByText('Antigua and Barbuda')).toBeInTheDocument();
     });
   });
 
   test('shows search result on clicking search button', async () => {
-    const { container, getByText } = render(
-      <RecoilRoot>
-        <App />
-      </RecoilRoot>
-    );
+    renderApp();
 
-    const searchInput = container.querySelector(
-      'input[name="country-search-field"]'
-    ) as HTMLInputElement;
-
-    const searchInputSubmitButton = container.querySelector(
-      '[name="country-search-submit-button"]'
-    ) as HTMLButtonElement;
+    const searchInput = screen.getByLabelText('Search Countries');
+    const searchInputSubmitButton = screen.getByText('Search');
 
     await waitFor(() => {
       searchInput.focus();
@@ -66,26 +52,19 @@ describe('Countries', () => {
       });
 
       expect(searchInput).toBeInTheDocument();
-      expect(searchInput.value).toEqual('Australia');
     });
 
     await waitFor(() => {
       searchInputSubmitButton.focus();
       searchInputSubmitButton.click();
-      expect(getByText('Australia')).toBeInTheDocument();
+      expect(screen.getByText('Australia')).toBeInTheDocument();
     });
   });
 
   test('hides previous page button when there are no more countries on the previous page ', async () => {
-    const { container } = render(
-      <RecoilRoot>
-        <App />
-      </RecoilRoot>
-    );
+    renderApp();
 
-    const prevPageButtonContainer = container
-      .querySelector('[name="page-navigation-prev-button"]')
-      ?.closest('div');
+    const prevPageButtonContainer = screen.getByTitle('Previous Page Button');
 
     await waitFor(() => {
       expect(prevPageButtonContainer).toBeInTheDocument();
@@ -96,21 +75,10 @@ describe('Countries', () => {
   });
 
   test('shows previous page button when there are more countries on the previous page ', async () => {
-    const { container } = render(
-      <RecoilRoot>
-        <App />
-      </RecoilRoot>
-    );
+    renderApp();
 
-    const nextPageButton = container.querySelector(
-      '[name="page-navigation-next-button"]'
-    ) as HTMLButtonElement;
-
-    const prevPageButton = container.querySelector(
-      '[name="page-navigation-prev-button"]'
-    );
-
-    const prevPageButtonContainer = prevPageButton?.closest('div');
+    const nextPageButton = screen.getByText('Next');
+    const prevPageButtonContainer = screen.getByTitle('Previous Page Button');
 
     await waitFor(() => {
       nextPageButton.focus();
@@ -123,15 +91,9 @@ describe('Countries', () => {
   });
 
   test('shows next page button when there are more countries on next page', async () => {
-    const { container } = render(
-      <RecoilRoot>
-        <App />
-      </RecoilRoot>
-    );
+    renderApp();
 
-    const nextPageButtonContainer = container
-      .querySelector('[name="page-navigation-next-button"]')
-      ?.closest('div');
+    const nextPageButtonContainer = screen.getByTitle('Next Page Button');
 
     await waitFor(() => {
       expect(nextPageButtonContainer).toBeInTheDocument();
@@ -142,17 +104,10 @@ describe('Countries', () => {
   });
 
   test('hides next page button when there are no more countries on next page', async () => {
-    const { container } = render(
-      <RecoilRoot>
-        <App />
-      </RecoilRoot>
-    );
+    renderApp();
 
-    const nextPageButton = container.querySelector(
-      '[name="page-navigation-next-button"]'
-    ) as HTMLButtonElement;
-
-    const nextPageButtonContainer = nextPageButton?.closest('div');
+    const nextPageButton = screen.getByText('Next');
+    const nextPageButtonContainer = screen.getByTitle('Next Page Button');
 
     await waitFor(() => {
       nextPageButton.focus();
@@ -166,22 +121,41 @@ describe('Countries', () => {
       );
     });
   });
+});
+
+describe('Country', () => {
+  test('shows loader when country are still loading', async () => {
+    renderWithRouter(
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>,
+      { route: '/country/Albania' }
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByAltText('preloader-image')).toBeInTheDocument();
+    });
+  });
 
   test('shows Country name, flag, population and demonym when I click on a country', async () => {
-    const { getByText, getByAltText, queryByAltText } = renderWithRouter(
+    renderWithRouter(
       <RecoilRoot>
         <App />
       </RecoilRoot>
     );
 
+    await waitForElementToBeRemoved(() =>
+      screen.queryByAltText('preloader-image')
+    );
+
     await waitFor(() => {
-      getByText('Albania').focus();
-      getByText('Albania').click();
-      expect(queryByAltText('preloader-image')).not.toBeInTheDocument();
-      expect(getByAltText('Albania-flag')).toBeInTheDocument();
-      expect(getByText('Albania')).toBeInTheDocument();
-      expect(getByText('2886026')).toBeInTheDocument();
-      expect(getByText('Albanian')).toBeInTheDocument();
+      expect(screen.getByText('Albania')).toBeInTheDocument();
+      screen.getByText('Albania').focus();
+      screen.getByText('Albania').click();
+      expect(screen.getByAltText('Albania-flag')).toBeInTheDocument();
+      expect(screen.getByText('Albania')).toBeInTheDocument();
+      expect(screen.getByText('2886026')).toBeInTheDocument();
+      expect(screen.getByText('Albanian')).toBeInTheDocument();
     });
   });
 });

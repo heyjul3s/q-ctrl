@@ -68,6 +68,7 @@ export function PageNavigation(): JSX.Element {
         item
         xs={6}
         className={!prevHidden ? classes.prevButton : classes.prevButtonHidden}
+        title="Previous Page Button"
       >
         <Button
           variant="contained"
@@ -84,6 +85,7 @@ export function PageNavigation(): JSX.Element {
         item
         xs={6}
         className={!nextHidden ? classes.nextButton : classes.nextButtonHidden}
+        title="Next Page Button"
       >
         <Button
           variant="contained"

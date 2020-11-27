@@ -7,14 +7,6 @@ import { render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import App from './App';
 
-export function renderComponent<P>(Component: React.FC<P>, props: P = {} as P) {
-  return render(
-    <RecoilRoot>
-      <Component {...props} />
-    </RecoilRoot>
-  );
-}
-
 export function renderApp() {
   return render(
     <RecoilRoot>

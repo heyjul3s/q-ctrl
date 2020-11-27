@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.29% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.67% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>6/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.67% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -177,16 +177,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -242,7 +242,7 @@ import { useRequest } from '../hooks';
 import isEmpty from 'lodash.isempty';
 import { Loader } from './Loader';
 &nbsp;
-const useStyles = makeStyles(<span class="fstat-no" title="function not covered" >(t</span>heme) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+const useStyles = makeStyles((theme) =&gt; ({
   back: {
     display: 'flex',
     paddingTop: theme.spacing(2),
@@ -261,17 +261,17 @@ const useStyles = makeStyles(<span class="fstat-no" title="function not covered"
   }
 }));
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >Country(</span>): JSX.Element {
-  const classes = <span class="cstat-no" title="statement not covered" >useStyles();</span>
-  const { countryName } = <span class="cstat-no" title="statement not covered" >useParams&lt;{ countryName: string }&gt;();</span>
+export function Country(): JSX.Element {
+  const classes = useStyles();
+  const { countryName } = useParams&lt;{ countryName: string }&gt;();
 &nbsp;
-  const { data, loading, error } = <span class="cstat-no" title="statement not covered" >useRequest&lt;CountryAll[]&gt;(</span>
+  const { data, loading, error } = useRequest&lt;CountryAll[]&gt;(
     `https://restcountries.eu/rest/v2/name/${countryName}`
   );
 &nbsp;
-  const country = <span class="cstat-no" title="statement not covered" >!!data &amp;&amp; !isEmpty(data) ? data[0] : void 0;</span>
+  const country = !!data &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!isEmpty(data) </span>? <span class="branch-0 cbranch-no" title="branch not covered" >data[0] </span>: void 0;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
       &lt;div className={classes.back}&gt;
         &lt;Link to="/"&gt;
@@ -289,7 +289,7 @@ export function <span class="fstat-no" title="function not covered" >Country(</s
       {loading &amp;&amp; &lt;Loader /&gt;}
 &nbsp;
       {!loading &amp;&amp; !isEmpty(country) &amp;&amp; (
-        &lt;Paper className={classes.paper}&gt;
+<span class="branch-2 cbranch-no" title="branch not covered" >        &lt;Paper className={classes.paper}&gt;</span>
           &lt;img
             className={classes.flag}
             src={country?.flag}
@@ -319,7 +319,7 @@ export function <span class="fstat-no" title="function not covered" >Country(</s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Nov 26 2020 16:46:25 GMT+1100 (Australian Eastern Daylight Time)
+                at Fri Nov 27 2020 10:28:41 GMT+1100 (Australian Eastern Daylight Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
